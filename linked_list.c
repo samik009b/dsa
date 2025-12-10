@@ -67,8 +67,6 @@ void remove_node_from_last () {
         return;
     }
 
-    //
-    
     /**
      * if LL has only one node we directly make the head as null.
      * else we iterate to 2nd last and points its next to null instead of last node.

@@ -1,30 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int stack[100]; // give any size of stack
 int top = -1;   // tracks element
 
-void push (int value, int size) {
+void push (int *stack, int value, int size) {
     if (top == size -1) {
-        printf("Stack is full");
+        printf("Stack is full\n");
     }
     else {
         top += 1;
         stack[top] = value;
+        printf("added %d\n", stack[top]);
     }
 }
 
-void pop (int size) {
+void pop (int *stack, int size) {
     if (top == -1) {
-        printf("Stack is empty");
+        printf("Stack is empty\n");
     }
     else {
         top--;
+        printf("removed %d\n", stack[top+1]);
     }
 }
 
-void display (int size) {
+void display (int *stack, int size) {
     if (top == -1) {
-        printf("Stack empty, nothing to display");
+        printf("Stack empty, nothing to display\n");
     }
     else {
         for (int i = 0; i <= top; i++) {
@@ -35,7 +37,7 @@ void display (int size) {
 
 int main () {
     int size, choice, value;
-
+    int *stack = (int*)malloc (size * sizeof(int));
     printf("Input size of stack : ");
     scanf("%d", &size);
 
@@ -55,23 +57,24 @@ int main () {
             case 1:
             printf("Enter the value to be inserted : ");
             scanf("%d", &value);
-            push(value, size);
+            push(stack, value, size);
             break;
 
             case 2:
-            pop(size);
+            pop(stack, size);
             break;
 
             case 3:
-            display(size);
+            display(stack, size);
             break;
 
             case 4:
+            free(stack);
             printf("Exiting menu");
             return 0;
 
             default:
-            printf("Enter between 1-4");
+            printf("Enter between 1-4\n");
             break;
         }
     }

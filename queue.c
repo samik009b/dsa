@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int queue[100];
 /**
  * front - Keeps track of first element in the queue
  *         Front stays place until first element is removed
@@ -9,9 +9,9 @@ int queue[100];
  */
 int front = -1, rear = -1;
 
-void enqueue (int value, int size) {
+void enqueue (int *queue, int value, int size) {
     if (rear == size - 1) {
-        printf("Queue is full");
+        printf("Queue is full\n");
     }
     else {
         if (front == -1) {
@@ -19,12 +19,13 @@ void enqueue (int value, int size) {
         }
         rear += 1;
         queue[rear] = value;
+        printf("pushed %d, queue size %d Bytes\n", queue[rear], sizeof(queue));
     }
 }
 
-void dequeue (int size) {
+void dequeue (int *queue, int size) {
     if (front == -1 || front > rear) {
-        printf("Queue is empty");
+        printf("Queue is empty\n");
     }
     else if (front == 0 && rear == 0) {
         front = rear = -1;
@@ -32,11 +33,12 @@ void dequeue (int size) {
     else if (front < rear) {
         front++;
     }
+    printf("size of queue %d Bytes\n", sizeof(queue));
 }
 
-void display (int size) {
+void display (int *queue, int size) {
     if (rear == -1 || front > rear) {
-        printf("Queue is empty, nothing to display");
+        printf("Queue is empty, nothing to display\n");
     }
     else {
         for (int i = front; i <= rear; i++) {
@@ -47,9 +49,10 @@ void display (int size) {
 
 int main () {
     int size, choice, value;
-
+    
     printf("Input size of queue : ");
     scanf("%d", &size);
+    int *queue = (int*) malloc(size * sizeof(int));
 
     while (1)
     {
@@ -60,20 +63,23 @@ int main () {
             case 1:
             printf("Enter the value to be inserted : ");
             scanf("%d", &value);
-            enqueue(value, size);
+            enqueue(queue, value, size);
             break;
 
             case 2:
-            dequeue(size);
+            dequeue(queue, size);
             break;
 
             case 3:
-            display(size);
+            display(queue, size);
             break;
 
             case 4:
             printf("Exiting menu");
             return 0;
+
+            default:
+            printf("enter between 1 -4\n");
         }
     }
     return 0;
